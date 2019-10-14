@@ -15,7 +15,7 @@ var set = ['123', [1], 123];
 var newSet = Array.from(new Set(set));
 console.log(newSet); // [ '123', [ 1 ], 123 ]
 
-// map 和set类似
+// Map 和Set类似
 
 // isArray 判断是否为数组元素
 // console.log(Array.isArray(result)); // true

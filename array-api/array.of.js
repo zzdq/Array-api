@@ -21,10 +21,3 @@ if (!Array.of) {
 var target = [1, 2, 3, 5, 7];
 var arr1 = target.copyWithin(target, 2, 4);
 // console.log(arr1);  // [3, 5, 3, 5, 7]
-
-// every 所有元素都满足条件 返回true
-var entires1 = [1, 2, 3, 4];
-var every1 = entires1.every((item) => {
-  return item >= 1;
-}, this);
-// console.log(every1);

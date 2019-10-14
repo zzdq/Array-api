@@ -10,6 +10,7 @@ var myObj = {
     console.log(this.foo); // bar
     console.log(self.foo); // bar
     (function () {
+      // console.log(this); // window
       console.log(this.foo); // underfine
       console.log(self.foo); // bar
     }());
