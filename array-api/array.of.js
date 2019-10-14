@@ -27,4 +27,4 @@ var entires1 = [1, 2, 3, 4];
 var every1 = entires1.every((item) => {
   return item >= 1;
 }, this);
-console.log(every1);
+// console.log(every1);
