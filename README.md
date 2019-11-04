@@ -1,1 +1,1 @@
-# Array-api
+# javascript-api
