@@ -36,3 +36,7 @@ var substringStr = '12312323asad';
 // toString 
 var str = [1, 2, 3, 4];
 console.log(str.toString()); // 1,2,3,4
+
+// 截取字符串里面指定字符之间的内容
+var str1 = 'https://caps-test.runde.pro/public/audio/159074522420073.amr'
+console.log(str1.match(/audio\/(\S*)\./)[1])
