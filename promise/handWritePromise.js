@@ -17,7 +17,7 @@ function Promise(executor) {
     if (_this.status === 'pending') {
       _this.value = value;
       // 依次调用onFulfilledFunc保存的回调函数，然后改变状态
-      _this.onFulfilledFunc.forEach(fn => {
+      _this.onFulfilledFunc.forEach(function(fn) {
         fn(value);
       });
       _this.status = 'resolved';
@@ -27,7 +27,7 @@ function Promise(executor) {
     // 当状态为pending是才能更新
     if (_this.status === 'pending') {
       _this.reason = reason; // 保存失败原因
-      _this.onRejectedFunc.forEach(fn => {
+      _this.onRejectedFunc.forEach(function(fn) {
         fn(reason);
       });
       _this.status = 'rejected';
@@ -60,10 +60,10 @@ function resolvePromise(promise2, x, resolve, reject) {
       let then = x.then; // 取出then方法引用
       // 函数就执行
       if (typeof then === 'function') {
-        then.call(x, (y) => {
+        then.call(x, function(y) {
           // 递归调用，直到的返回的不是promise对象为止
           resolvePromise(promise2, y, resolve, reject);
-        }, (r) => {
+        }, function(r) {
           reject(r);
         });
       } else {
@@ -83,9 +83,9 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
   // 异步的请求的状态变为成功，递归调用resolvePromise
   if (this.status === 'resolved') {
     // x有可能是promise对象，也有可能是一个普通值
-    promise2 = new Promise((resolve, reject) => {
+    promise2 = new Promise(function(resolve, reject) {
       // 异步请求
-      setTimeout(() => {
+      setTimeout(function() {
         try {
           let x = onFulfilled(this.value);
           resolvePromise(promise2, x, resolve, reject);
@@ -96,8 +96,8 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
     })
   }
   if (this.status === 'rejected') {
-    promise2 = new Promise((resolve, reject) => {
-      setTimeout(() => {
+    promise2 = new Promise(function(resolve, reject) {
+      setTimeout(function() {
         try {
           let x = onRejected(this.reason);
           resolvePromise(promise2, x, resolve, reject);
@@ -109,22 +109,23 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
   }
   // 当状态为pending，将每一次then的结果传递给下一步操作，直到返回的是一个普通值
   if (this.status === 'pending') {
-    promise2 = new Promise((resolve, reject) => {
-      this.onFulfilledFunc.push(() => {
+    var that = this // 保存上下文
+    promise2 = new Promise(function(resolve, reject) {
+      that.onFulfilledFunc.push(function() {
         // x可能是一个promise对象，也可能是一个普通值
-        setTimeout(() => {
+        setTimeout(function() {
           try {
-            let x = onFulfilled(this.value);
+            let x = onFulfilled(that.value);
             resolvePromise(promise2, x, resolve, reject);
           } catch (r) {
             reject(r);
           }
         }, 0);
       });
-      this.onRejectedFunc.push(() => {
-        setTimeout(() => {
+      that.onRejectedFunc.push(function() {
+        setTimeout(function() {
           try {
-            let x = onRejected(this.reason);
+            let x = onRejected(that.reason);
             resolvePromise(promise2, x, resolve, reject);
           } catch (r) {
             reject(r);
@@ -136,11 +137,11 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
   return promise2;
 };
 
-new Promise((resolve, reject) => {
+new Promise(function(resolve, reject) {
   console.log('执行了');
   resolve();
-}).then(res => {
+}).then(function(res) {
   console.log(res);
-}).then(res => {
+}).then(function(res) {
   console.log(2);
 });
